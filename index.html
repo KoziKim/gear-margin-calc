@@ -2,7 +2,7 @@
 <html lang="ko" class="dark">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>GearCalc - 해외 장비 직구 & 순마진 계산기</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -19,11 +19,6 @@
               500: '#22c55e',
               600: '#16a34a',
               700: '#15803d',
-            },
-            dark: {
-              bg: '#0f172a',
-              card: '#1e293b',
-              border: '#334155',
             }
           }
         }
@@ -31,6 +26,10 @@
     }
   </script>
   <style>
+    /* iOS Safari 인풋 클릭 시 자동 화면 확대 방지 (최소 16px 강제) */
+    input, select, textarea {
+      font-size: 16px !important;
+    }
     input[type=number]::-webkit-inner-spin-button, 
     input[type=number]::-webkit-outer-spin-button { 
       -webkit-appearance: none; 
@@ -38,6 +37,11 @@
     }
     input[type=number] {
       -moz-appearance: textfield;
+    }
+    .stepper-btn {
+      touch-action: manipulation;
+      user-select: none;
+      -webkit-user-select: none;
     }
   </style>
 </head>
@@ -52,7 +56,7 @@
         </div>
         <div>
           <span class="font-bold text-lg tracking-tight bg-gradient-to-r from-emerald-400 to-teal-200 bg-clip-text text-transparent">GearCalc</span>
-          <span class="text-xs text-slate-400 font-mono ml-1.5 px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700/60">v1.0</span>
+          <span class="text-xs text-slate-400 font-mono ml-1.5 px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700/60">v1.1</span>
         </div>
       </div>
       <div class="flex items-center gap-3 text-xs text-slate-400">
@@ -65,28 +69,28 @@
   </header>
 
   <!-- Main Content -->
-  <main class="max-w-4xl mx-auto px-4 py-8 w-full flex-1">
+  <main class="max-w-4xl mx-auto px-4 py-6 w-full flex-1">
     
     <!-- Intro & Quick Presets -->
     <div class="mb-6">
-      <h1 class="text-2xl font-bold tracking-tight text-white mb-2">해외 악기·장비 순마진 계산기</h1>
-      <p class="text-slate-400 text-sm mb-4">Reverb 등 해외 직구 가격과 국내 중고(뮬/번개) 판매가를 비교해 관부가세, 배대지, 환율을 포함한 실질 순마진을 즉시 산출합니다.</p>
+      <h1 class="text-xl sm:text-2xl font-bold tracking-tight text-white mb-2">해외 악기·장비 순마진 계산기</h1>
+      <p class="text-slate-400 text-xs sm:text-sm mb-4">Reverb 등 해외 직구 가격과 국내 중고 판매가를 비교해 관부가세, 배대지, 환율을 포함한 실질 순마진을 즉시 산출합니다.</p>
       
       <!-- Quick Presets Buttons -->
       <div class="flex flex-wrap items-center gap-2">
         <span class="text-xs text-slate-400 font-medium mr-1 flex items-center gap-1">
           <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i> 빠른 프리셋:
         </span>
-        <button onclick="applyPreset('kot')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white">
+        <button onclick="applyPreset('kot')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white active:scale-95">
           👑 킹오브톤
         </button>
-        <button onclick="applyPreset('hxone')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white">
+        <button onclick="applyPreset('hxone')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white active:scale-95">
           🎛️ HX One
         </button>
-        <button onclick="applyPreset('secret')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white">
+        <button onclick="applyPreset('secret')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white active:scale-95">
           ⚡ 시크릿 프리앰프
         </button>
-        <button onclick="applyPreset('halo')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white">
+        <button onclick="applyPreset('halo')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white active:scale-95">
           🌌 킬리 헤일로
         </button>
       </div>
@@ -96,7 +100,7 @@
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
 
       <!-- Left: Input Form (7 cols) -->
-      <div class="lg:col-span-7 space-y-6">
+      <div class="lg:col-span-7 space-y-5">
 
         <!-- 1. 해외 구매 정보 -->
         <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 shadow-sm space-y-4">
@@ -108,23 +112,54 @@
             <span class="text-xs text-slate-500 font-mono">USD ($)</span>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1.5">상품 가격 ($)</label>
-              <div class="relative">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono">$</span>
-                <input type="number" id="price-usd" step="0.01" value="189.99" placeholder="0.00"
-                  class="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-8 pr-3.5 py-2.5 text-sm text-white font-mono focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition" />
+          <!-- 상품 가격 Input with Steppers -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-medium text-slate-300">상품 가격 ($)</label>
+              <div class="flex items-center gap-1">
+                <button type="button" onclick="adjustValue('price-usd', -50)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">-50</button>
+                <button type="button" onclick="adjustValue('price-usd', -10)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">-10</button>
+                <button type="button" onclick="adjustValue('price-usd', 10)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+10</button>
+                <button type="button" onclick="adjustValue('price-usd', 50)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+50</button>
               </div>
             </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1.5">미국 내 배송비 ($)</label>
-              <div class="relative">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono">$</span>
-                <input type="number" id="shipping-usd" step="0.01" value="0.00" placeholder="0.00"
-                  class="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-8 pr-3.5 py-2.5 text-sm text-white font-mono focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition" />
+            <div class="flex items-center">
+              <button type="button" onclick="adjustValue('price-usd', -5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600">
+                <i data-lucide="minus" class="w-4 h-4"></i>
+              </button>
+              <div class="relative flex-1">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono text-base">$</span>
+                <input type="number" id="price-usd" step="0.01" value="189.99" placeholder="0.00"
+                  class="w-full bg-slate-950 border-y border-slate-700/80 pl-8 pr-3 py-2.5 text-base text-white font-mono focus:border-emerald-500 outline-none transition text-center" />
               </div>
+              <button type="button" onclick="adjustValue('price-usd', 5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- 미국 내 배송비 Input with Steppers -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-medium text-slate-300">미국 내 배송비 ($)</label>
+              <div class="flex items-center gap-1">
+                <button type="button" onclick="setValue('shipping-usd', 0)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-emerald-400 border border-slate-700 active:scale-90">무료($0)</button>
+                <button type="button" onclick="adjustValue('shipping-usd', 5)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+5</button>
+                <button type="button" onclick="adjustValue('shipping-usd', 15)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+15</button>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <button type="button" onclick="adjustValue('shipping-usd', -1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600">
+                <i data-lucide="minus" class="w-4 h-4"></i>
+              </button>
+              <div class="relative flex-1">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono text-base">$</span>
+                <input type="number" id="shipping-usd" step="0.01" value="0.00" placeholder="0.00"
+                  class="w-full bg-slate-950 border-y border-slate-700/80 pl-8 pr-3 py-2.5 text-base text-white font-mono focus:border-emerald-500 outline-none transition text-center" />
+              </div>
+              <button type="button" onclick="adjustValue('shipping-usd', 1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </button>
             </div>
           </div>
 
@@ -133,7 +168,7 @@
             <div class="flex items-center justify-between">
               <span class="text-xs font-medium text-slate-300 flex items-center gap-1.5">
                 <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
-                관부가세 계산 구간:
+                관부가세 판정:
               </span>
               <span id="customs-badge" class="text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-950/80 border border-emerald-800/60 text-emerald-300">
                 면세 ($200 이하)
@@ -155,56 +190,102 @@
             <span class="text-xs text-slate-500 font-mono">KRW (원)</span>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1.5">목표 판매가 (원)</label>
-              <div class="relative">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono">₩</span>
-                <input type="number" id="domestic-krw" step="1000" value="370000" placeholder="0"
-                  class="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-8 pr-3.5 py-2.5 text-sm text-white font-mono focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition" />
+          <!-- 목표 판매가 with Steppers -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-medium text-slate-300">목표 판매가 (원)</label>
+              <div class="flex items-center gap-1">
+                <button type="button" onclick="adjustValue('domestic-krw', -50000)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">-5만</button>
+                <button type="button" onclick="adjustValue('domestic-krw', -10000)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">-1만</button>
+                <button type="button" onclick="adjustValue('domestic-krw', 10000)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+1만</button>
+                <button type="button" onclick="adjustValue('domestic-krw', 50000)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+5만</button>
               </div>
             </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1.5">플랫폼 수수료</label>
-              <select id="platform-fee" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition cursor-pointer">
-                <option value="0">뮬 / 직거래 (0%)</option>
-                <option value="0.035">번개페이 / 중고나라 (3.5%)</option>
-                <option value="0.05">기타 안전결제 (5.0%)</option>
-              </select>
+            <div class="flex items-center">
+              <button type="button" onclick="adjustValue('domestic-krw', -10000)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600">
+                <i data-lucide="minus" class="w-4 h-4"></i>
+              </button>
+              <div class="relative flex-1">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono text-base">₩</span>
+                <input type="number" id="domestic-krw" step="1000" value="370000" placeholder="0"
+                  class="w-full bg-slate-950 border-y border-slate-700/80 pl-8 pr-3 py-2.5 text-base text-white font-mono focus:border-emerald-500 outline-none transition text-center" />
+              </div>
+              <button type="button" onclick="adjustValue('domestic-krw', 10000)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </button>
             </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-medium text-slate-300 mb-1.5">플랫폼 수수료</label>
+            <select id="platform-fee" class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-base text-white focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition cursor-pointer">
+              <option value="0">뮬 / 직거래 (0%)</option>
+              <option value="0.035">번개페이 / 중고나라 (3.5%)</option>
+              <option value="0.05">기타 안전결제 (5.0%)</option>
+            </select>
           </div>
         </div>
 
-        <!-- 3. 상세 부대비용 설정 (접기/펼치기) -->
-        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 shadow-sm">
-          <div class="flex items-center justify-between mb-4">
+        <!-- 3. 상세 부대비용 설정 -->
+        <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 shadow-sm space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <h2 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
               <i data-lucide="sliders" class="w-4 h-4 text-slate-400"></i>
               환율 및 부대비용 옵션
             </h2>
-            <span class="text-xs text-slate-500">기본 최적값 적용됨</span>
+            <span class="text-xs text-slate-500">기본 최적값</span>
           </div>
 
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1.5">적용 환율 (원/$)</label>
-              <div class="relative">
+          <!-- 환율 with Steppers -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-medium text-slate-300">적용 환율 (원/$)</label>
+              <div class="flex items-center gap-1">
+                <button type="button" onclick="adjustValue('exchange-rate', -10)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">-10</button>
+                <button type="button" onclick="setValue('exchange-rate', 1360)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-emerald-400 border border-slate-700 active:scale-90">1360원</button>
+                <button type="button" onclick="adjustValue('exchange-rate', 10)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+10</button>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <button type="button" onclick="adjustValue('exchange-rate', -5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600">
+                <i data-lucide="minus" class="w-4 h-4"></i>
+              </button>
+              <div class="relative flex-1">
                 <input type="number" id="exchange-rate" step="1" value="1360"
-                  class="w-full bg-slate-950 border border-slate-700/80 rounded-xl px-3.5 py-2.5 text-sm text-white font-mono focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition" />
+                  class="w-full bg-slate-950 border-y border-slate-700/80 px-3 py-2.5 text-base text-white font-mono focus:border-emerald-500 outline-none transition text-center" />
                 <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-slate-500">KRW</span>
               </div>
-            </div>
-
-            <div>
-              <label class="block text-xs font-medium text-slate-300 mb-1.5">배대지 한국 배송비 ($)</label>
-              <div class="relative">
-                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono">$</span>
-                <input type="number" id="forwarding-usd" step="1" value="25"
-                  class="w-full bg-slate-950 border border-slate-700/80 rounded-xl pl-8 pr-3.5 py-2.5 text-sm text-white font-mono focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 outline-none transition" />
-              </div>
+              <button type="button" onclick="adjustValue('exchange-rate', 5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </button>
             </div>
           </div>
+
+          <!-- 배대지 배송비 with Steppers -->
+          <div>
+            <div class="flex items-center justify-between mb-1.5">
+              <label class="text-xs font-medium text-slate-300">배대지 한국 배송비 ($)</label>
+              <div class="flex items-center gap-1">
+                <button type="button" onclick="setValue('forwarding-usd', 20)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">$20</button>
+                <button type="button" onclick="setValue('forwarding-usd', 25)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-emerald-400 border border-slate-700 active:scale-90">$25(기본)</button>
+                <button type="button" onclick="setValue('forwarding-usd', 30)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">$30</button>
+              </div>
+            </div>
+            <div class="flex items-center">
+              <button type="button" onclick="adjustValue('forwarding-usd', -1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600">
+                <i data-lucide="minus" class="w-4 h-4"></i>
+              </button>
+              <div class="relative flex-1">
+                <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono text-base">$</span>
+                <input type="number" id="forwarding-usd" step="1" value="25"
+                  class="w-full bg-slate-950 border-y border-slate-700/80 pl-8 pr-3 py-2.5 text-base text-white font-mono focus:border-emerald-500 outline-none transition text-center" />
+              </div>
+              <button type="button" onclick="adjustValue('forwarding-usd', 1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600">
+                <i data-lucide="plus" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+
         </div>
 
       </div>
@@ -262,7 +343,7 @@
 
           <!-- Actions -->
           <div class="pt-4 border-t border-slate-800/80 flex flex-col gap-2">
-            <button onclick="copyShareLink()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-slate-200 hover:text-white transition flex items-center justify-center gap-1.5 shadow-sm">
+            <button onclick="copyShareLink()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-slate-200 hover:text-white transition flex items-center justify-center gap-1.5 shadow-sm active:scale-98">
               <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
               현재 계산 결과 링크 복사
             </button>

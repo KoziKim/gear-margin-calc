@@ -121,6 +121,27 @@ function calculate() {
   }
 }
 
+// Stepper and Value Controls
+function adjustValue(id, delta) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  let val = parseFloat(el.value) || 0;
+  val = Math.max(0, val + delta);
+  if (id === 'price-usd' || id === 'shipping-usd') {
+    el.value = (Math.round(val * 100) / 100).toFixed(2);
+  } else {
+    el.value = Math.round(val);
+  }
+  calculate();
+}
+
+function setValue(id, val) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.value = val;
+  calculate();
+}
+
 // Quick Presets
 const PRESETS = {
   kot: { price: 580, shipping: 0, domestic: 1150000 },
