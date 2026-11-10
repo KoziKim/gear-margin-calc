@@ -38,10 +38,14 @@
     input[type=number] {
       -moz-appearance: textfield;
     }
-    .stepper-btn {
+    .stepper-btn, .pill-btn {
       touch-action: manipulation;
       user-select: none;
       -webkit-user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .stepper-btn svg, .stepper-btn i {
+      pointer-events: none;
     }
   </style>
 </head>
@@ -52,11 +56,11 @@
     <div class="max-w-4xl mx-auto px-4 h-16 flex items-center justify-between">
       <div class="flex items-center gap-2.5">
         <div class="w-9 h-9 rounded-xl bg-gradient-to-tr from-emerald-500 to-teal-400 flex items-center justify-center text-slate-950 font-bold shadow-lg shadow-emerald-500/20">
-          <i data-lucide="calculator" class="w-5 h-5"></i>
+          <i data-lucide="calculator" class="w-5 h-5 pointer-events-none"></i>
         </div>
         <div>
           <span class="font-bold text-lg tracking-tight bg-gradient-to-r from-emerald-400 to-teal-200 bg-clip-text text-transparent">GearCalc</span>
-          <span class="text-xs text-slate-400 font-mono ml-1.5 px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700/60">v1.1</span>
+          <span class="text-xs text-slate-400 font-mono ml-1.5 px-2 py-0.5 rounded-full bg-slate-800 border border-slate-700/60">v1.2</span>
         </div>
       </div>
       <div class="flex items-center gap-3 text-xs text-slate-400">
@@ -79,18 +83,18 @@
       <!-- Quick Presets Buttons -->
       <div class="flex flex-wrap items-center gap-2">
         <span class="text-xs text-slate-400 font-medium mr-1 flex items-center gap-1">
-          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400"></i> 빠른 프리셋:
+          <i data-lucide="sparkles" class="w-3.5 h-3.5 text-emerald-400 pointer-events-none"></i> 빠른 프리셋:
         </span>
-        <button onclick="applyPreset('kot')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white active:scale-95">
+        <button type="button" onclick="applyPreset('kot')" class="pill-btn text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white active:scale-95 transition">
           👑 킹오브톤
         </button>
-        <button onclick="applyPreset('hxone')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white active:scale-95">
+        <button type="button" onclick="applyPreset('hxone')" class="pill-btn text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white active:scale-95 transition">
           🎛️ HX One
         </button>
-        <button onclick="applyPreset('secret')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white active:scale-95">
+        <button type="button" onclick="applyPreset('secret')" class="pill-btn text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white active:scale-95 transition">
           ⚡ 시크릿 프리앰프
         </button>
-        <button onclick="applyPreset('halo')" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 hover:border-slate-600 transition text-slate-300 hover:text-white active:scale-95">
+        <button type="button" onclick="applyPreset('halo')" class="pill-btn text-xs px-3 py-1.5 rounded-lg bg-slate-800/90 hover:bg-slate-700 border border-slate-700 text-slate-300 hover:text-white active:scale-95 transition">
           🌌 킬리 헤일로
         </button>
       </div>
@@ -106,7 +110,7 @@
         <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <h2 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
-              <i data-lucide="globe" class="w-4 h-4 text-emerald-400"></i>
+              <i data-lucide="globe" class="w-4 h-4 text-emerald-400 pointer-events-none"></i>
               해외 구매 정보 (Reverb / 직구)
             </h2>
             <span class="text-xs text-slate-500 font-mono">USD ($)</span>
@@ -116,24 +120,24 @@
           <div>
             <div class="flex items-center justify-between mb-1.5">
               <label class="text-xs font-medium text-slate-300">상품 가격 ($)</label>
-              <div class="flex items-center gap-1">
-                <button type="button" onclick="adjustValue('price-usd', -50)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">-50</button>
-                <button type="button" onclick="adjustValue('price-usd', -10)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">-10</button>
-                <button type="button" onclick="adjustValue('price-usd', 10)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+10</button>
-                <button type="button" onclick="adjustValue('price-usd', 50)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+50</button>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="adjustValue('price-usd', -50)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">-50</button>
+                <button type="button" onclick="adjustValue('price-usd', -10)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">-10</button>
+                <button type="button" onclick="adjustValue('price-usd', 10)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">+10</button>
+                <button type="button" onclick="adjustValue('price-usd', 50)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">+50</button>
               </div>
             </div>
             <div class="flex items-center">
-              <button type="button" onclick="adjustValue('price-usd', -5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600">
-                <i data-lucide="minus" class="w-4 h-4"></i>
+              <button type="button" onclick="adjustValue('price-usd', -5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600 active:scale-95">
+                <i data-lucide="minus" class="w-4 h-4 pointer-events-none"></i>
               </button>
               <div class="relative flex-1">
                 <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono text-base">$</span>
                 <input type="number" id="price-usd" step="0.01" value="189.99" placeholder="0.00"
                   class="w-full bg-slate-950 border-y border-slate-700/80 pl-8 pr-3 py-2.5 text-base text-white font-mono focus:border-emerald-500 outline-none transition text-center" />
               </div>
-              <button type="button" onclick="adjustValue('price-usd', 5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600">
-                <i data-lucide="plus" class="w-4 h-4"></i>
+              <button type="button" onclick="adjustValue('price-usd', 5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600 active:scale-95">
+                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i>
               </button>
             </div>
           </div>
@@ -142,23 +146,23 @@
           <div>
             <div class="flex items-center justify-between mb-1.5">
               <label class="text-xs font-medium text-slate-300">미국 내 배송비 ($)</label>
-              <div class="flex items-center gap-1">
-                <button type="button" onclick="setValue('shipping-usd', 0)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-emerald-400 border border-slate-700 active:scale-90">무료($0)</button>
-                <button type="button" onclick="adjustValue('shipping-usd', 5)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+5</button>
-                <button type="button" onclick="adjustValue('shipping-usd', 15)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+15</button>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="setValue('shipping-usd', 0)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 active:scale-90 transition">무료($0)</button>
+                <button type="button" onclick="adjustValue('shipping-usd', 5)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">+5</button>
+                <button type="button" onclick="adjustValue('shipping-usd', 15)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">+15</button>
               </div>
             </div>
             <div class="flex items-center">
-              <button type="button" onclick="adjustValue('shipping-usd', -1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600">
-                <i data-lucide="minus" class="w-4 h-4"></i>
+              <button type="button" onclick="adjustValue('shipping-usd', -1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600 active:scale-95">
+                <i data-lucide="minus" class="w-4 h-4 pointer-events-none"></i>
               </button>
               <div class="relative flex-1">
                 <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono text-base">$</span>
                 <input type="number" id="shipping-usd" step="0.01" value="0.00" placeholder="0.00"
                   class="w-full bg-slate-950 border-y border-slate-700/80 pl-8 pr-3 py-2.5 text-base text-white font-mono focus:border-emerald-500 outline-none transition text-center" />
               </div>
-              <button type="button" onclick="adjustValue('shipping-usd', 1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600">
-                <i data-lucide="plus" class="w-4 h-4"></i>
+              <button type="button" onclick="adjustValue('shipping-usd', 1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600 active:scale-95">
+                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i>
               </button>
             </div>
           </div>
@@ -167,7 +171,7 @@
           <div class="bg-slate-950/60 border border-slate-800/80 rounded-xl p-3.5 space-y-2">
             <div class="flex items-center justify-between">
               <span class="text-xs font-medium text-slate-300 flex items-center gap-1.5">
-                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400"></i>
+                <i data-lucide="shield-check" class="w-3.5 h-3.5 text-emerald-400 pointer-events-none"></i>
                 관부가세 판정:
               </span>
               <span id="customs-badge" class="text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-950/80 border border-emerald-800/60 text-emerald-300">
@@ -184,7 +188,7 @@
         <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <h2 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
-              <i data-lucide="tag" class="w-4 h-4 text-teal-400"></i>
+              <i data-lucide="tag" class="w-4 h-4 text-teal-400 pointer-events-none"></i>
               국내 판매 정보 (뮬 / 중고)
             </h2>
             <span class="text-xs text-slate-500 font-mono">KRW (원)</span>
@@ -194,24 +198,24 @@
           <div>
             <div class="flex items-center justify-between mb-1.5">
               <label class="text-xs font-medium text-slate-300">목표 판매가 (원)</label>
-              <div class="flex items-center gap-1">
-                <button type="button" onclick="adjustValue('domestic-krw', -50000)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">-5만</button>
-                <button type="button" onclick="adjustValue('domestic-krw', -10000)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">-1만</button>
-                <button type="button" onclick="adjustValue('domestic-krw', 10000)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+1만</button>
-                <button type="button" onclick="adjustValue('domestic-krw', 50000)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+5만</button>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="adjustValue('domestic-krw', -50000)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">-5만</button>
+                <button type="button" onclick="adjustValue('domestic-krw', -10000)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">-1만</button>
+                <button type="button" onclick="adjustValue('domestic-krw', 10000)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">+1만</button>
+                <button type="button" onclick="adjustValue('domestic-krw', 50000)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">+5만</button>
               </div>
             </div>
             <div class="flex items-center">
-              <button type="button" onclick="adjustValue('domestic-krw', -10000)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600">
-                <i data-lucide="minus" class="w-4 h-4"></i>
+              <button type="button" onclick="adjustValue('domestic-krw', -10000)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600 active:scale-95">
+                <i data-lucide="minus" class="w-4 h-4 pointer-events-none"></i>
               </button>
               <div class="relative flex-1">
                 <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono text-base">₩</span>
                 <input type="number" id="domestic-krw" step="1000" value="370000" placeholder="0"
                   class="w-full bg-slate-950 border-y border-slate-700/80 pl-8 pr-3 py-2.5 text-base text-white font-mono focus:border-emerald-500 outline-none transition text-center" />
               </div>
-              <button type="button" onclick="adjustValue('domestic-krw', 10000)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600">
-                <i data-lucide="plus" class="w-4 h-4"></i>
+              <button type="button" onclick="adjustValue('domestic-krw', 10000)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600 active:scale-95">
+                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i>
               </button>
             </div>
           </div>
@@ -230,7 +234,7 @@
         <div class="bg-slate-900/80 border border-slate-800/80 rounded-2xl p-5 shadow-sm space-y-4">
           <div class="flex items-center justify-between border-b border-slate-800 pb-3">
             <h2 class="text-sm font-semibold text-slate-200 flex items-center gap-2">
-              <i data-lucide="sliders" class="w-4 h-4 text-slate-400"></i>
+              <i data-lucide="sliders" class="w-4 h-4 text-slate-400 pointer-events-none"></i>
               환율 및 부대비용 옵션
             </h2>
             <span class="text-xs text-slate-500">기본 최적값</span>
@@ -240,23 +244,23 @@
           <div>
             <div class="flex items-center justify-between mb-1.5">
               <label class="text-xs font-medium text-slate-300">적용 환율 (원/$)</label>
-              <div class="flex items-center gap-1">
-                <button type="button" onclick="adjustValue('exchange-rate', -10)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">-10</button>
-                <button type="button" onclick="setValue('exchange-rate', 1360)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-emerald-400 border border-slate-700 active:scale-90">1360원</button>
-                <button type="button" onclick="adjustValue('exchange-rate', 10)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">+10</button>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="adjustValue('exchange-rate', -10)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">-10</button>
+                <button type="button" onclick="setValue('exchange-rate', 1360)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 active:scale-90 transition">1360원</button>
+                <button type="button" onclick="adjustValue('exchange-rate', 10)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">+10</button>
               </div>
             </div>
             <div class="flex items-center">
-              <button type="button" onclick="adjustValue('exchange-rate', -5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600">
-                <i data-lucide="minus" class="w-4 h-4"></i>
+              <button type="button" onclick="adjustValue('exchange-rate', -5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600 active:scale-95">
+                <i data-lucide="minus" class="w-4 h-4 pointer-events-none"></i>
               </button>
               <div class="relative flex-1">
                 <input type="number" id="exchange-rate" step="1" value="1360"
                   class="w-full bg-slate-950 border-y border-slate-700/80 px-3 py-2.5 text-base text-white font-mono focus:border-emerald-500 outline-none transition text-center" />
                 <span class="absolute right-3.5 top-1/2 -translate-y-1/2 text-xs text-slate-500">KRW</span>
               </div>
-              <button type="button" onclick="adjustValue('exchange-rate', 5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600">
-                <i data-lucide="plus" class="w-4 h-4"></i>
+              <button type="button" onclick="adjustValue('exchange-rate', 5)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600 active:scale-95">
+                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i>
               </button>
             </div>
           </div>
@@ -265,23 +269,23 @@
           <div>
             <div class="flex items-center justify-between mb-1.5">
               <label class="text-xs font-medium text-slate-300">배대지 한국 배송비 ($)</label>
-              <div class="flex items-center gap-1">
-                <button type="button" onclick="setValue('forwarding-usd', 20)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">$20</button>
-                <button type="button" onclick="setValue('forwarding-usd', 25)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-emerald-400 border border-slate-700 active:scale-90">$25(기본)</button>
-                <button type="button" onclick="setValue('forwarding-usd', 30)" class="text-[11px] px-2 py-0.5 rounded bg-slate-800/90 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90">$30</button>
+              <div class="flex items-center gap-1.5">
+                <button type="button" onclick="setValue('forwarding-usd', 20)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">$20</button>
+                <button type="button" onclick="setValue('forwarding-usd', 25)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-emerald-400 border border-slate-700 active:scale-90 transition">$25</button>
+                <button type="button" onclick="setValue('forwarding-usd', 30)" class="pill-btn text-xs px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-400 hover:text-slate-200 border border-slate-700 active:scale-90 transition">$30</button>
               </div>
             </div>
             <div class="flex items-center">
-              <button type="button" onclick="adjustValue('forwarding-usd', -1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600">
-                <i data-lucide="minus" class="w-4 h-4"></i>
+              <button type="button" onclick="adjustValue('forwarding-usd', -1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-l-xl transition active:bg-slate-600 active:scale-95">
+                <i data-lucide="minus" class="w-4 h-4 pointer-events-none"></i>
               </button>
               <div class="relative flex-1">
                 <span class="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-500 font-mono text-base">$</span>
                 <input type="number" id="forwarding-usd" step="1" value="25"
                   class="w-full bg-slate-950 border-y border-slate-700/80 pl-8 pr-3 py-2.5 text-base text-white font-mono focus:border-emerald-500 outline-none transition text-center" />
               </div>
-              <button type="button" onclick="adjustValue('forwarding-usd', 1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600">
-                <i data-lucide="plus" class="w-4 h-4"></i>
+              <button type="button" onclick="adjustValue('forwarding-usd', 1)" class="stepper-btn w-12 h-11 flex items-center justify-center bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 rounded-r-xl transition active:bg-slate-600 active:scale-95">
+                <i data-lucide="plus" class="w-4 h-4 pointer-events-none"></i>
               </button>
             </div>
           </div>
@@ -343,8 +347,8 @@
 
           <!-- Actions -->
           <div class="pt-4 border-t border-slate-800/80 flex flex-col gap-2">
-            <button onclick="copyShareLink()" class="w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-slate-200 hover:text-white transition flex items-center justify-center gap-1.5 shadow-sm active:scale-98">
-              <i data-lucide="share-2" class="w-3.5 h-3.5"></i>
+            <button type="button" onclick="copyShareLink()" class="pill-btn w-full py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-medium text-slate-200 hover:text-white transition flex items-center justify-center gap-1.5 shadow-sm active:scale-98">
+              <i data-lucide="share-2" class="w-3.5 h-3.5 pointer-events-none"></i>
               현재 계산 결과 링크 복사
             </button>
             <span id="copy-toast" class="text-center text-xs text-emerald-400 hidden animate-fade">링크가 클립보드에 복사되었습니다!</span>
@@ -363,9 +367,199 @@
     <p>© 2026 GearCalc · Built for Musicians & Gear Collectors</p>
   </footer>
 
-  <!-- App Logic -->
-  <script src="app.js"></script>
+  <!-- App Core Engine (Inlined to prevent mobile browser stale caching) -->
   <script>
+    const DOM = {
+      priceUsd: document.getElementById('price-usd'),
+      shippingUsd: document.getElementById('shipping-usd'),
+      domesticKrw: document.getElementById('domestic-krw'),
+      exchangeRate: document.getElementById('exchange-rate'),
+      forwardingUsd: document.getElementById('forwarding-usd'),
+      platformFee: document.getElementById('platform-fee'),
+      headerRate: document.getElementById('header-rate'),
+      
+      customsBadge: document.getElementById('customs-badge'),
+      customsDesc: document.getElementById('customs-desc'),
+      netMarginDisplay: document.getElementById('net-margin-display'),
+      marginRateDisplay: document.getElementById('margin-rate-display'),
+      decisionBadge: document.getElementById('decision-badge'),
+      itemSubtotalDisplay: document.getElementById('item-subtotal-display'),
+      taxDisplay: document.getElementById('tax-display'),
+      forwardingDisplay: document.getElementById('forwarding-display'),
+      feeDisplay: document.getElementById('fee-display'),
+      totalCostDisplay: document.getElementById('total-cost-display'),
+      breakevenDisplay: document.getElementById('breakeven-display'),
+      copyToast: document.getElementById('copy-toast'),
+    };
+
+    function formatKrw(num) {
+      return Math.round(num).toLocaleString('ko-KR') + '원';
+    }
+
+    function formatUsd(num) {
+      return '$' + Number(num).toFixed(2);
+    }
+
+    function calculate() {
+      const price = parseFloat(DOM.priceUsd.value) || 0;
+      const shipping = parseFloat(DOM.shippingUsd.value) || 0;
+      const domestic = parseFloat(DOM.domesticKrw.value) || 0;
+      const rate = parseFloat(DOM.exchangeRate.value) || 1360;
+      const forwarding = parseFloat(DOM.forwardingUsd.value) || 0;
+      const feeRate = parseFloat(DOM.platformFee.value) || 0;
+
+      DOM.headerRate.textContent = rate.toLocaleString('ko-KR') + '원';
+
+      const usSubtotal = price + shipping;
+
+      let taxRate = 0;
+      let taxLabel = '';
+      let taxDesc = '';
+
+      if (usSubtotal <= 200.0) {
+        taxRate = 0.0;
+        taxLabel = '면세 ($200 이하)';
+        taxDesc = '미국 직구 $200 이하(상품+미국배송비)로 한미 FTA 목록통관 전액 면세 대상입니다.';
+        DOM.customsBadge.className = 'text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-950/80 border border-emerald-800/60 text-emerald-300';
+      } else if (usSubtotal <= 1000.0) {
+        taxRate = 0.10;
+        taxLabel = '부가세 10% ($200~$1,000)';
+        taxDesc = '미국 직구 $200 초과 $1,000 이하로 한미 FTA 원산지 인정 시 관세 면제 후 부가세 10%만 부과됩니다.';
+        DOM.customsBadge.className = 'text-xs px-2.5 py-0.5 rounded-full font-medium bg-blue-950/80 border border-blue-800/60 text-blue-300';
+      } else {
+        taxRate = 0.188;
+        taxLabel = '관부가세 18.8% ($1,000 초과)';
+        taxDesc = '$1,000 초과 고가품으로 기본 관세(8%) 및 부가세(10%)가 합산 부과됩니다.';
+        DOM.customsBadge.className = 'text-xs px-2.5 py-0.5 rounded-full font-medium bg-amber-950/80 border border-amber-800/60 text-amber-300';
+      }
+
+      DOM.customsBadge.textContent = taxLabel;
+      DOM.customsDesc.textContent = taxDesc;
+
+      const taxUsd = usSubtotal * taxRate;
+      const taxKrw = Math.round(taxUsd * rate);
+
+      const totalCostUsd = usSubtotal + taxUsd + forwarding;
+      const totalCostKrw = Math.round(totalCostUsd * rate);
+
+      const domesticFeeKrw = Math.round(domestic * feeRate);
+      const netRevenueKrw = domestic - domesticFeeKrw;
+
+      const netMarginKrw = netRevenueKrw - totalCostKrw;
+      const marginRate = totalCostKrw > 0 ? (netMarginKrw / totalCostKrw) * 100 : 0;
+
+      const breakevenKrw = feeRate < 1 ? Math.round(totalCostKrw / (1 - feeRate)) : totalCostKrw;
+
+      DOM.itemSubtotalDisplay.textContent = `${formatUsd(usSubtotal)} (${formatKrw(usSubtotal * rate)})`;
+      DOM.taxDisplay.textContent = taxRate === 0 ? '0원 (면세)' : `${formatKrw(taxKrw)} (${formatUsd(taxUsd)})`;
+      DOM.forwardingDisplay.textContent = `${formatUsd(forwarding)} (${formatKrw(forwarding * rate)})`;
+      DOM.feeDisplay.textContent = feeRate === 0 ? '0원 (직거래)' : `${formatKrw(domesticFeeKrw)} (${(feeRate * 100).toFixed(1)}%)`;
+      DOM.totalCostDisplay.textContent = formatKrw(totalCostKrw);
+      DOM.breakevenDisplay.textContent = formatKrw(breakevenKrw);
+
+      if (netMarginKrw >= 30000) {
+        DOM.netMarginDisplay.textContent = `+${formatKrw(netMarginKrw)}`;
+        DOM.netMarginDisplay.className = 'text-3xl font-extrabold text-emerald-400 tracking-tight font-mono mb-1.5';
+        DOM.marginRateDisplay.textContent = `마진율 +${marginRate.toFixed(1)}%`;
+        DOM.marginRateDisplay.className = 'text-xs px-2.5 py-0.5 rounded-full font-mono bg-emerald-950/80 border border-emerald-800/60 text-emerald-300';
+        DOM.decisionBadge.textContent = '🚀 매수 추천 (3만 원 이상)';
+        DOM.decisionBadge.className = 'text-xs px-2.5 py-0.5 rounded-full font-medium bg-emerald-900/40 text-emerald-300 border border-emerald-700/40';
+      } else if (netMarginKrw > 0) {
+        DOM.netMarginDisplay.textContent = `+${formatKrw(netMarginKrw)}`;
+        DOM.netMarginDisplay.className = 'text-3xl font-extrabold text-yellow-400 tracking-tight font-mono mb-1.5';
+        DOM.marginRateDisplay.textContent = `마진율 +${marginRate.toFixed(1)}%`;
+        DOM.marginRateDisplay.className = 'text-xs px-2.5 py-0.5 rounded-full font-mono bg-yellow-950/80 border border-yellow-800/60 text-yellow-300';
+        DOM.decisionBadge.textContent = '⚠️ 소액 마진 (신중)';
+        DOM.decisionBadge.className = 'text-xs px-2.5 py-0.5 rounded-full font-medium bg-yellow-900/40 text-yellow-300 border border-yellow-700/40';
+      } else {
+        DOM.netMarginDisplay.textContent = formatKrw(netMarginKrw);
+        DOM.netMarginDisplay.className = 'text-3xl font-extrabold text-rose-400 tracking-tight font-mono mb-1.5';
+        DOM.marginRateDisplay.textContent = `마진율 ${marginRate.toFixed(1)}%`;
+        DOM.marginRateDisplay.className = 'text-xs px-2.5 py-0.5 rounded-full font-mono bg-rose-950/80 border border-rose-800/60 text-rose-300';
+        DOM.decisionBadge.textContent = '🛑 적자 주의';
+        DOM.decisionBadge.className = 'text-xs px-2.5 py-0.5 rounded-full font-medium bg-rose-900/40 text-rose-300 border border-rose-700/40';
+      }
+    }
+
+    // 전역 스코프에 확실히 등록
+    window.adjustValue = function(id, delta) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      let val = parseFloat(el.value);
+      if (isNaN(val)) val = 0;
+      val = Math.max(0, val + delta);
+      if (id === 'price-usd' || id === 'shipping-usd') {
+        el.value = (Math.round(val * 100) / 100).toFixed(2);
+      } else {
+        el.value = Math.round(val);
+      }
+      calculate();
+    };
+
+    window.setValue = function(id, val) {
+      const el = document.getElementById(id);
+      if (!el) return;
+      el.value = val;
+      calculate();
+    };
+
+    const PRESETS = {
+      kot: { price: 580, shipping: 0, domestic: 1150000 },
+      hxone: { price: 189.99, shipping: 0, domestic: 370000 },
+      secret: { price: 179.99, shipping: 0, domestic: 320000 },
+      halo: { price: 209.99, shipping: 0, domestic: 320000 },
+    };
+
+    window.applyPreset = function(key) {
+      const p = PRESETS[key];
+      if (!p) return;
+      DOM.priceUsd.value = p.price;
+      DOM.shippingUsd.value = p.shipping;
+      DOM.domesticKrw.value = p.domestic;
+      calculate();
+    };
+
+    window.copyShareLink = function() {
+      const params = new URLSearchParams({
+        price: DOM.priceUsd.value,
+        shipping: DOM.shippingUsd.value,
+        domestic: DOM.domesticKrw.value,
+        rate: DOM.exchangeRate.value,
+        forwarding: DOM.forwardingUsd.value,
+      });
+      const url = `${window.location.origin}${window.location.pathname}?${params.toString()}`;
+
+      navigator.clipboard.writeText(url).then(() => {
+        DOM.copyToast.classList.remove('hidden');
+        setTimeout(() => {
+          DOM.copyToast.classList.add('hidden');
+        }, 2500);
+      });
+    };
+
+    function initFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has('price')) DOM.priceUsd.value = params.get('price');
+      if (params.has('shipping')) DOM.shippingUsd.value = params.get('shipping');
+      if (params.has('domestic')) DOM.domesticKrw.value = params.get('domestic');
+      if (params.has('rate')) DOM.exchangeRate.value = params.get('rate');
+      if (params.has('forwarding')) DOM.forwardingUsd.value = params.get('forwarding');
+    }
+
+    [
+      DOM.priceUsd,
+      DOM.shippingUsd,
+      DOM.domesticKrw,
+      DOM.exchangeRate,
+      DOM.forwardingUsd,
+      DOM.platformFee,
+    ].forEach(el => {
+      el.addEventListener('input', calculate);
+      el.addEventListener('change', calculate);
+    });
+
+    initFromUrl();
+    calculate();
     lucide.createIcons();
   </script>
 </body>
